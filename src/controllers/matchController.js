@@ -38,6 +38,19 @@ matchController.get("/dashboard", async (req, res) => {
         const errorMessage = getErrorMessage(error);
         res.render("/", { error: errorMessage });
     }
+});
+
+matchController.get("/:matchId/details", async (req, res) => {
+    const matchId = Number(req.params.matchId);
+
+    try {
+        const match = await matchService.getById(matchId);
+
+        res.render("match/details", { match });
+    } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        res.render("match/dashboard", { error: errorMessage });
+    };
 })
 
 export default matchController;

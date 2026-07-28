@@ -7,5 +7,9 @@ export default {
 
     async getAll() {
         return await matchRepository.getAll();
+    },
+
+    async getById(matchId) {
+        return await matchRepository.getById(matchId);
     }
 }

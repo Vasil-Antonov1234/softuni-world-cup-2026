@@ -14,6 +14,7 @@ export default {
     async getAll() {
         return await prisma.match.findMany({
             select: {
+                id: true,
                 homeTeam: true,
                 awayTeam: true,
                 homeGoals: true,
@@ -22,5 +23,13 @@ export default {
                 imageUrl: true
             }
         });
+    },
+
+    async getById(matchId) {
+        return await prisma.match.findUnique({
+            where: {
+                id: matchId
+            }
+        })
     }
 }

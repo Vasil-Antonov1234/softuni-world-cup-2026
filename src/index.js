@@ -3,6 +3,7 @@ import { engine } from "express-handlebars";
 import routes from "./routes.js";
 import cookieParser from "cookie-parser";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
+import cors from "cors";
 
 const app = express();
 
@@ -15,6 +16,9 @@ app.set("views", "src/views");
 
 // Setup static files
 app.use(express.static("src/public"));
+
+// Add CORS
+app.use(cors());
 
 // Setup body parser
 app.use(express.urlencoded());

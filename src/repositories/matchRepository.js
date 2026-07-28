@@ -82,12 +82,31 @@ export default {
         })
     },
 
-    async remove(matchId) {        
+    async remove(matchId) {
         return await prisma.match.delete({
             where: {
                 id: matchId,
                 owner: userId
             }
         })
+    },
+
+    async getTopScored() {
+        const matches = await prisma.match.findMany({
+            include: {
+                owner: {
+                    select: {
+                        email: true
+                    }
+                }
+            }
+        });
+
+        const topScoredMatches = matches.map((x) => ({
+            ...x,
+            totalGoals: x.homeGoals + x.awayGoals
+        })).sort((a, b) => b.totalGoals - a.totalGoals).slice(0, 3);
+
+        return topScoredMatches;
     }
 }

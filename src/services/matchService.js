@@ -33,5 +33,9 @@ export default {
         }
     
         return await matchRepository.remove(matchId, userId);
+    },
+
+    async getTopScored() {
+        return await matchRepository.getTopScored();
     }
 }

@@ -31,5 +31,18 @@ export default {
                 id: matchId
             }
         })
+    },
+
+    async update(matchData, matchId, userId) {
+        
+        return prisma.match.update({
+            where: {
+                id: matchId,
+                ownerId: userId
+            },
+            data: {
+                ...matchData
+            }
+        });
     }
 }

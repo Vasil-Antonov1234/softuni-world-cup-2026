@@ -56,7 +56,7 @@ matchController.get("/:matchId/details", async (req, res) => {
     };
 });
 
-matchController.get("/:matchId/edit", async (req, res) => {
+matchController.get("/:matchId/edit", isAuthenticated, async (req, res) => {
     const matchId = Number(req.params.matchId);
 
     try {
@@ -67,6 +67,23 @@ matchController.get("/:matchId/edit", async (req, res) => {
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         res.render("match/edit", { error: errorMessage })
+    };
+});
+
+matchController.post("/:matchId/edit", isAuthenticated, async (req, res) => {
+    const matchData = req.body;
+    const matchId = Number(req.params.matchId);
+    const userId = Number(req.user.id);
+
+    try {
+        const parsedMatchData = await createMatchSchema.parseAsync(matchData);
+
+        await matchService.edit(parsedMatchData, matchId, userId);
+
+        res.redirect(`/matches/${matchId}/details`);
+    } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        res.status(400).render("match/edit", { error: errorMessage, matchData })
     }
 })
 

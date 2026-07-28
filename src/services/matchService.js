@@ -11,5 +11,9 @@ export default {
 
     async getById(matchId) {
         return await matchRepository.getById(matchId);
+    },
+
+    async edit(parsedMatchData, matchId, userId) {
+        return await matchRepository.update(parsedMatchData, matchId, userId);
     }
 }

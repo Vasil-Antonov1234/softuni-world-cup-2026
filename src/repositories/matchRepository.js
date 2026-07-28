@@ -25,6 +25,24 @@ export default {
         });
     },
 
+    async getLastThree() {
+        return await prisma.match.findMany({
+            orderBy: {
+                id: "desc"
+            },
+            select: {
+                id: true,
+                homeTeam: true,
+                awayTeam: true,
+                homeGoals: true,
+                awayGoals: true,
+                stage: true,
+                imageUrl: true
+            },
+            take: 3
+        })
+    },
+
     async getById(matchId) {
         return await prisma.match.findUnique({
             where: {

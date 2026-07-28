@@ -9,6 +9,10 @@ export default {
         return await matchRepository.getAll();
     },
 
+    async getLastThree() {
+        return await matchRepository.getLastThree();
+    },
+
     async getById(matchId) {
         return await matchRepository.getById(matchId);
     },

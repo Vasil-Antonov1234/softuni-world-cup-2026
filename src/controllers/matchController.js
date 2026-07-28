@@ -20,7 +20,7 @@ matchController.post("/create", isAuthenticated, async (req, res) => {
         const parsedData = await createMatchSchema.parseAsync(matchData);
         await matchService.create(parsedData, ownerId);
         
-        res.redirect("match/dashboard");
+        res.redirect("/matches/dashboard");
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         const stageOptions = prepareStageOptions(matchData);

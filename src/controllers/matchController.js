@@ -45,8 +45,11 @@ matchController.get("/:matchId/details", async (req, res) => {
 
     try {
         const match = await matchService.getById(matchId);
+        const userId = req.user?.id;
 
-        res.render("match/details", { match });
+        const isOwner = userId === match.ownerId;
+
+        res.render("match/details", { match, isOwner });
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         res.render("match/dashboard", { error: errorMessage });

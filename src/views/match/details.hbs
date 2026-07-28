@@ -40,7 +40,9 @@
         <a href="/matches/{{match.id}}/edit" id="edit-btn">✏️ Edit</a>
         <a href="#" id="delete-btn">🗑️ Delete</a>
         {{/if}}
+        {{#if isNotGuest}}
         <a href="#" id="like-btn">⭐ Like</a>
+        {{/if}}
         <!-- <p id="already-liked">⭐ You already liked this match!</p> -->
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createUserSchema } from "../schemas/authSchema.js";
 import { getErrorMessage } from "../utils/errorUtil.js";
-import authService from "./authService.js";
+import authService from "../services/authService";
 import { generateAccessToken } from "../utils/accessTokenUtil.js";
 import { isAuthenticated, isGuest } from "../middlewares/authMiddleware.js";
 

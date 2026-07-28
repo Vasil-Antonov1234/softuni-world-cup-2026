@@ -30,7 +30,7 @@ model Match {
 	awayGoals	Int
 	stage		String
 	venue		String
-	date		DateTime
+	date		String
 	imageUrl	String
 	description	String
 

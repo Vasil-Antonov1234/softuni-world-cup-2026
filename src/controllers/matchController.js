@@ -18,10 +18,7 @@ matchController.post("/create", isAuthenticated, async (req, res) => {
 
     try {
         const parsedData = await createMatchSchema.parseAsync(matchData);
-        await matchService.create({
-            ownerId,
-            ...parsedData
-        });
+        await matchService.create(parsedData, ownerId);
         
         res.redirect("match/dashboard");
     } catch (error) {
@@ -29,6 +26,10 @@ matchController.post("/create", isAuthenticated, async (req, res) => {
         const stageOptions = prepareStageOptions(matchData);
         return res.status(400).render("match/create", { error: errorMessage, matchData, stageOptions });
     };
+});
+
+matchController.get("/dashboard", async (req, res) => {
+    res.render("match/dashboard");
 })
 
 export default matchController;

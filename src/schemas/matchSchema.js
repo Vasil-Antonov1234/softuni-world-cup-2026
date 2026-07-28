@@ -14,7 +14,7 @@ export const createMatchSchema = z.object({
     stage: z.enum(["Group Stage", "Round of 16", "Quarter-final", "Semi-final", "Final"], { error: "Invalid stage"}),
     venue: z.string()
         .min(1, { error: "Venue is required" }),
-    date: z.coerce.date({ error: "Invalid date format"})
+    date: z.string()
         .nonoptional({ error: "Date is required" }),
     imageUrl: z.url({ error: "Invalid URL format"} )
         .nonoptional({ error: "Image URL is required"} ),

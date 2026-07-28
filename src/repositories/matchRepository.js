@@ -7,6 +7,20 @@ export default {
                 ...parsedData,
                 ownerId
             }
+
+        });
+    },
+
+    async getAll() {
+        return await prisma.match.findMany({
+            select: {
+                homeTeam: true,
+                awayTeam: true,
+                homeGoals: true,
+                awayGoals: true,
+                stage: true,
+                imageUrl: true
+            }
         });
     }
 }

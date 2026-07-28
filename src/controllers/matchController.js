@@ -29,7 +29,15 @@ matchController.post("/create", isAuthenticated, async (req, res) => {
 });
 
 matchController.get("/dashboard", async (req, res) => {
-    res.render("match/dashboard");
+    
+    try {
+        const matches = await matchService.getAll();
+        
+        res.render("match/dashboard", { matches });
+    } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        res.render("/", { error: errorMessage });
+    }
 })
 
 export default matchController;

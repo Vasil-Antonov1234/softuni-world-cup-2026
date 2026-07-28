@@ -106,6 +106,19 @@ matchController.get("/:matchId/like", isAuthenticated, async (req, res) => {
         const errorMessage = getErrorMessage(error);
         return res.status(400).render("404", { error: errorMessage });
     };
+});
+
+matchController.get("/:matchId/delete", isAuthenticated, async (req, res) => {
+    const matchId = Number(req.params.matchId);
+    
+    try {
+        const match = await matchService.remove(matchId);
+
+        res.status(204).redirect("/matches/dashboard")
+    } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        res.status(404).render("404", { error: errorMessage });
+    };
 })
 
 export default matchController;

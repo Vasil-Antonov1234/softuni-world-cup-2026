@@ -23,5 +23,9 @@ export default {
 
     async like(matchId, userId) {
         return await matchRepository.like(matchId, userId);
+    },
+
+    async remove(matchId) {
+        return await matchRepository.remove(matchId);
     }
 }

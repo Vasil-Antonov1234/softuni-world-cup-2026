@@ -80,5 +80,13 @@ export default {
                 }
             }
         })
+    },
+
+    async remove(matchId) {        
+        return await prisma.match.delete({
+            where: {
+                id: matchId
+            }
+        })
     }
 }

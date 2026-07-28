@@ -25,7 +25,13 @@ export default {
         return await matchRepository.like(matchId, userId);
     },
 
-    async remove(matchId) {
-        return await matchRepository.remove(matchId);
+    async remove(matchId, userId) {
+        const match = await matchRepository.getById(matchId);
+
+        if (match.ownerId !== userId) {
+            throw new Error("Unauthorized")
+        }
+    
+        return await matchRepository.remove(matchId, userId);
     }
 }

@@ -19,7 +19,7 @@ matchController.post("/create", isAuthenticated, async (req, res) => {
     try {
         const parsedData = await createMatchSchema.parseAsync(matchData);
         await matchService.create(parsedData, ownerId);
-        
+
         res.redirect("/matches/dashboard");
     } catch (error) {
         const errorMessage = getErrorMessage(error);
@@ -29,10 +29,10 @@ matchController.post("/create", isAuthenticated, async (req, res) => {
 });
 
 matchController.get("/dashboard", async (req, res) => {
-    
+
     try {
         const matches = await matchService.getAll();
-        
+
         res.render("match/dashboard", { matches });
     } catch (error) {
         const errorMessage = getErrorMessage(error);
@@ -64,10 +64,16 @@ matchController.get("/:matchId/details", async (req, res) => {
 
 matchController.get("/:matchId/edit", isAuthenticated, async (req, res) => {
     const matchId = Number(req.params.matchId);
+    const userId = Number(req.user.id);
 
     try {
         const match = await matchService.getById(matchId);
-        
+        const isOwner = match.ownerId === userId;
+
+        if (!isOwner) {
+            return res.status(403).render("404", { error: "Unauthorized" });
+        }
+
         const stageOptions = prepareStageOptions(match);
         res.render("match/edit", { match, stageOptions });
     } catch (error) {
@@ -82,6 +88,14 @@ matchController.post("/:matchId/edit", isAuthenticated, async (req, res) => {
     const userId = Number(req.user.id);
 
     try {
+        const match = await matchService.getById(matchId);
+
+        const isOwner = match.ownerId === userId;
+
+        if (!isOwner) {
+            return res.status(403).render("404", { error: "Unauthorized" });
+        }
+
         const parsedMatchData = await createMatchSchema.parseAsync(matchData);
 
         await matchService.edit(parsedMatchData, matchId, userId);
@@ -90,7 +104,7 @@ matchController.post("/:matchId/edit", isAuthenticated, async (req, res) => {
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         const stageOptions = prepareStageOptions(matchData);
-        res.status(400).render("match/edit", { error: errorMessage, matchData, stageOptions })
+        res.status(400).render("match/edit", { error: errorMessage, match: matchData, stageOptions })
     }
 });
 
@@ -110,9 +124,10 @@ matchController.get("/:matchId/like", isAuthenticated, async (req, res) => {
 
 matchController.get("/:matchId/delete", isAuthenticated, async (req, res) => {
     const matchId = Number(req.params.matchId);
-    
+    const userId = Number(req.user.id);
+
     try {
-        const match = await matchService.remove(matchId);
+        const match = await matchService.remove(matchId, userId);
 
         res.status(204).redirect("/matches/dashboard")
     } catch (error) {

@@ -57,7 +57,17 @@ matchController.get("/:matchId/details", async (req, res) => {
 });
 
 matchController.get("/:matchId/edit", async (req, res) => {
-    res.render("match/edit");
+    const matchId = Number(req.params.matchId);
+
+    try {
+        const match = await matchService.getById(matchId);
+        
+        const stageOptions = prepareStageOptions(match);
+        res.render("match/edit", { match, stageOptions });
+    } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        res.render("match/edit", { error: errorMessage })
+    }
 })
 
 export default matchController;

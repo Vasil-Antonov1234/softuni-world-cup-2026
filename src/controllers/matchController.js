@@ -54,8 +54,9 @@ matchController.get("/:matchId/details", async (req, res) => {
 
         const isOwner = userId === match.ownerId;
         const hasLiked = match.likeBy.find((x) => x.id === userId);
+        const likesCount = match.likeBy.length;
 
-        res.render("match/details", { match, isOwner, hasLiked });
+        res.render("match/details", { match, isOwner, hasLiked, likesCount });
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         res.render("match/dashboard", { error: errorMessage });

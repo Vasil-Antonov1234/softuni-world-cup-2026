@@ -53,9 +53,9 @@ matchController.get("/:matchId/details", async (req, res) => {
         const userId = req.user?.id;
 
         const isOwner = userId === match.ownerId;
-        const isNotGuest = req.user? true : false;
+        const hasLiked = match.likeBy.find((x) => x.id === userId);
 
-        res.render("match/details", { match, isOwner, isNotGuest });
+        res.render("match/details", { match, isOwner, hasLiked });
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         res.render("match/dashboard", { error: errorMessage });
@@ -92,6 +92,20 @@ matchController.post("/:matchId/edit", isAuthenticated, async (req, res) => {
         const stageOptions = prepareStageOptions(matchData);
         res.status(400).render("match/edit", { error: errorMessage, matchData, stageOptions })
     }
+});
+
+matchController.get("/:matchId/like", isAuthenticated, async (req, res) => {
+    const matchId = Number(req.params.matchId);
+    const userId = Number(req.user.id);
+
+    try {
+        await matchService.like(matchId, userId);
+
+        res.redirect(`/matches/${matchId}/details`);
+    } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        return res.status(400).render("404", { error: errorMessage });
+    };
 })
 
 export default matchController;

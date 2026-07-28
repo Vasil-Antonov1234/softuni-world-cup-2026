@@ -15,5 +15,9 @@ export default {
 
     async edit(parsedMatchData, matchId, userId) {
         return await matchRepository.update(parsedMatchData, matchId, userId);
+    },
+
+    async like(matchId, userId) {
+        return await matchRepository.like(matchId, userId);
     }
 }

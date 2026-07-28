@@ -29,12 +29,15 @@ export default {
         return await prisma.match.findUnique({
             where: {
                 id: matchId
+            },
+            include: {
+                likeBy: true
             }
         })
     },
 
     async update(matchData, matchId, userId) {
-        
+
         return prisma.match.update({
             where: {
                 id: matchId,
@@ -44,5 +47,20 @@ export default {
                 ...matchData
             }
         });
+    },
+
+    async like(matchId, userId) {
+        return await prisma.match.update({
+            where: {
+                id: matchId
+            },
+            data: {
+                likeBy: {
+                    connect: {
+                        id: userId
+                    }
+                }
+            }
+        })
     }
 }

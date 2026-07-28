@@ -54,6 +54,10 @@ matchController.get("/:matchId/details", async (req, res) => {
         const errorMessage = getErrorMessage(error);
         res.render("match/dashboard", { error: errorMessage });
     };
+});
+
+matchController.get("/:matchId/edit", async (req, res) => {
+    res.render("match/edit");
 })
 
 export default matchController;

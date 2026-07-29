@@ -1,0 +1,28 @@
+<main class="report-section">
+  <section id="report-section">
+    <h2>🏆 Top Scored Matches</h2>
+    <p>The 3 most goal-rich matches of the tournament</p>
+    <ul class="report-list" id="report-list">
+      {{#if apiError}}
+      <h2 id="no-post">Error loading top scored matches!</h2>
+      {{else}}
+      {{#each matches}}
+      <li class="report-card">
+        <img src="{{imageUrl}}" alt="{{homeTeam}} - {{awayTeam}}" />
+        <div>
+          <h3>{{homeTeam}} vs {{awayTeam}}</h3>
+          <p class="match-score">{{homeGoals}} - {{awayGoals}}</p>
+          <p><strong>Total Goals</strong>{{totalGoals}}</p>
+          <p><strong>Stage</strong>{{stage}}</p>
+          <p><strong>Venue</strong>{{venue}}</p>
+          <p><strong>Date</strong>{{date}}</p>
+          <p><strong>Added by</strong>{{owner.email}}</p>
+        </div>
+      </li>
+      {{else}}
+      <h2 id="no-post">There are no matches yet!</h2>
+      {{/each}}
+      {{/if}}
+    </ul>
+  </section>
+</main>

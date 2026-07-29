@@ -7,6 +7,17 @@ import matchService from "../services/matchService.js";
 
 const matchController = Router();
 
+matchController.get("/report", async (req, res) => {
+    try {
+        const matches = await matchService.getTopScored();
+
+        res.render("match/report", { matches });
+    } catch (error) {
+        res.status(400).render("match/report", { apiError: true })
+    }
+    
+})
+
 matchController.get("/create", isAuthenticated, (req, res) => {
     const stageOptions = prepareStageOptions();
     res.render("match/create", { stageOptions });
